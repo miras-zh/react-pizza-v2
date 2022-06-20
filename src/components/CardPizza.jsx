@@ -28,6 +28,7 @@ function CardPizza({ title, price, imageUrl, sizes, types }) {
         <ul>
           {types.map((type, index) => (
             <li
+            key={index}
               onClick={() => onClickSetActiveType(index)}
               className={activeType === index ? "active" : ""}
             >
@@ -38,6 +39,7 @@ function CardPizza({ title, price, imageUrl, sizes, types }) {
         <ul>
           {sizes.map((size, index) => (
             <li 
+            key={index}
             onClick={()=>onClickSetActiveSize(index)} 
             className={activeSize === index?"active":""}>
                 {size} см.
