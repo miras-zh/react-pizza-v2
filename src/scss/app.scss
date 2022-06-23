@@ -61,6 +61,7 @@ body {
   }
 }
 
+
 .container {
   width: $container-width;
   margin: 0 auto;
@@ -79,6 +80,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .content__items{
+    display: flex;
+    flex-direction: column;
   }
 
   .content__title {

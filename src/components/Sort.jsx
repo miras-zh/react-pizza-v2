@@ -1,6 +1,7 @@
 import React from "react";
 
-function Sort() {
+function Sort({value}) {
+  console.log('value>', value)
   const [popupActive, setPopupActive] = React.useState(false);
   const [selPop, setPopLIstAct] = React.useState(0);
   const listPopup = [

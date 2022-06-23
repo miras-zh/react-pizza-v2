@@ -1,6 +1,7 @@
 import React from "react";
 
-function Categories() {
+function Categories({value}) {
+  console.log('value>', value)
   const [activeCat, setActiveCat] = React.useState(0);
 
   const categories = [
