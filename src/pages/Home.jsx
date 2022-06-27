@@ -9,10 +9,18 @@ function Home() {
   let [isLoad, setLoad] = React.useState(false);
 
   const [categoryId, setCategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState(0);
+  const [sortType, setSortType] = React.useState({
+      name: "популярности",
+      sort: "raiting",
+    });
+  const [sortOrder, setSortOrder] = React.useState('desc');
 
+  console.log("sort>", sortType);
   React.useEffect(() => {
-    fetch("https://62b0a7a6e460b79df04ab646.mockapi.io/items")
+    let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
+    url = url + `&sortBy=${sortType.sort}&order=${sortOrder}`
+    console.log(url)
+    fetch("https://62b0a7a6e460b79df04ab646.mockapi.io/items?" + url)
       .then((res) => {
         return res.json();
       })
@@ -21,13 +29,20 @@ function Home() {
         setLoad(true);
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [categoryId,sortType, sortOrder]);
   return (
     <>
       <div className="container">
         <div className="content__top">
-          <Categories value={categoryId}/>
-          <Sort value={sortType}/>
+          <Categories
+            value={categoryId}
+            changeCategory={(id) => setCategoryId(id)}
+          />
+          <Sort value={sortType} 
+          changeSort={(id) => setSortType(id)} 
+          order={sortOrder}
+          changeOrder={(val)=>setSortOrder(val)}
+          />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
