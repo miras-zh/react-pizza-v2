@@ -9,7 +9,6 @@
     transition: all 1 ease-in-out;
     &:focus {
       border: 1px solid rgba($color: #000000, $alpha: 0.7);
-      width: 370px;
       transition: all 1 ease-in-out;
     }
   }
