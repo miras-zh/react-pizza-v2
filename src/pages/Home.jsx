@@ -4,7 +4,7 @@ import CardPizza from "../components/CardPizza";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 
-function Home() {
+function Home({search}) {
   let [items, setItems] = React.useState([]);
   let [isLoad, setLoad] = React.useState(false);
 
@@ -15,7 +15,6 @@ function Home() {
     });
   const [sortOrder, setSortOrder] = React.useState('desc');
 
-  console.log("sort>", sortType);
   React.useEffect(() => {
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
     url = url + `&sortBy=${sortType.sort}&order=${sortOrder}`
@@ -30,6 +29,15 @@ function Home() {
       });
     window.scrollTo(0, 0);
   }, [categoryId,sortType, sortOrder]);
+
+  const pizzasList = items
+  .filter((obj)=>{
+    if(obj.title.toLowerCase().includes(search.toLowerCase())){
+      return true
+    }
+    return false
+  })
+  .map((obj) => <CardPizza key={obj.id} {...obj}/>)
   return (
     <>
       <div className="container">
@@ -48,7 +56,7 @@ function Home() {
         <div className="content__items">
           {!isLoad
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : items.map((obj) => <CardPizza key={obj.id} {...obj} />)}
+            : pizzasList }
         </div>
       </div>
     </>

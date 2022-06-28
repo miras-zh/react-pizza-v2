@@ -10,6 +10,9 @@
     svg {
       margin-right: 8px;
     }
+    svg.rotateArrow{
+      transform: rotate(180deg);
+    }
 
     b {
       margin-right: 8px;
