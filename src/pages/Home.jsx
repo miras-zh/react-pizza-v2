@@ -15,6 +15,7 @@ function Home({ search }) {
     sort: "raiting",
   });
   const [sortOrder, setSortOrder] = React.useState("desc");
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
@@ -24,7 +25,7 @@ function Home({ search }) {
     url = searchParam !== "" ? url + searchParam : url;
 
     console.log(url);
-    fetch("https://62b0a7a6e460b79df04ab646.mockapi.io/items?" + url)
+    fetch(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` + url)
       .then((res) => {
         return res.json();
       })
@@ -33,7 +34,7 @@ function Home({ search }) {
         setLoad(true);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, sortOrder, search]);
+  }, [categoryId, sortType, sortOrder, search, currentPage]);
 
   //-- search here without request
   const pizzasList = items
@@ -65,7 +66,7 @@ function Home({ search }) {
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
             : pizzasList}
         </div>
-        <Pagination itemsPerPage={pizzasList} />
+        <Pagination onPageChange={(page)=>setCurrentPage(page)} />
       </div>
     </>
   );
