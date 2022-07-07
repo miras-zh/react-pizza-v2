@@ -1,4 +1,7 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCategoryId } from "../redux/slices/filterSlice"; 
+
 import Skeleton from "../components/CardPizza/Skeleton";
 import CardPizza from "../components/CardPizza";
 import Categories from "../components/Categories";
@@ -6,10 +9,23 @@ import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 
 function Home({ search }) {
+
+  const categoryId = useSelector(state=>state.filter.categoryId);
+  const dispatch = useDispatch();
+
+  console.log('categorId>', categoryId)
+
+
   let [items, setItems] = React.useState([]);
   let [isLoad, setLoad] = React.useState(false);
 
-  const [categoryId, setCategoryId] = React.useState(0);
+  // const [categoryId, setCategoryId] = React.useState(0);
+
+  const changeCategory = (id)=>{
+    console.log('id>',id);
+    dispatch(setCategoryId(id))
+  }
+
   const [sortType, setSortType] = React.useState({
     name: "популярности",
     sort: "raiting",
@@ -51,7 +67,7 @@ function Home({ search }) {
         <div className="content__top">
           <Categories
             value={categoryId}
-            changeCategory={(id) => setCategoryId(id)}
+            changeCategory={changeCategory}
           />
           <Sort
             value={sortType}
