@@ -1,40 +1,39 @@
 import React from "react";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setCategoryId, setSort} from "../redux/slices/filterSlice";
 
-function Sort({ value, changeSort, changeOrder, order}) {
-
+function Sort({ value, changeSort, changeOrder, order }) {
   const dispatch = useDispatch();
-  const sort = useSelector(state => state.filterSlice.sort);
-  console.log('sort state## ', sort)
+  const sort = useSelector((state) => state.filter.sort);
+  console.log("sort state## ", sort);
 
   const [popupActive, setPopupActive] = React.useState(false);
   const [colorSvg, setColorSvg] = React.useState("#2C2C2C");
   const listPopup = [
-    {name:"популярности", sort:"raiting"}, 
-    {name:"цене", sort:"price"}, 
-    {name:"алфавиту", sort:"title"}];
+    { name: "популярности", sort: "raiting" },
+    { name: "цене", sort: "price" },
+    { name: "алфавиту", sort: "title" },
+  ];
 
-  const onClickListItems = (obj) =>{
+  const onClickListItems = (obj) => {
+    dispatch(setSort(obj))
     changeSort(obj);
-    setPopupActive(!popupActive)
-  }
+    setPopupActive(!popupActive);
+  };
 
-  const onClickSortOrder = () =>{
-     const item = order === 'desc' ? (
-       setColorSvg('#2C2C2C'),
-      'asc'
-     ):(
-      setColorSvg('#fe5f1e'),
-      'desc'
-      );
-    changeOrder(item)
-  }
+  const onClickSortOrder = () => {
+    const item =
+      order === "desc"
+        ? (setColorSvg("#2C2C2C"), "asc")
+        : (setColorSvg("#fe5f1e"), "desc");
+    changeOrder(item);
+  };
 
   return (
     <div className="sort">
       <div className="sort__label">
         <svg
-          className={order === 'asc'?'rotateArrow':''}
+          className={order === "asc" ? "rotateArrow" : ""}
           width="20"
           height="20"
           viewBox="0 0 10 6"
