@@ -1,6 +1,12 @@
 import React from "react";
+import {useSelector, useDispatch} from "react-redux";
 
 function Sort({ value, changeSort, changeOrder, order}) {
+
+  const dispatch = useDispatch();
+  const sort = useSelector(state => state.filterSlice.sort);
+  console.log('sort state## ', sort)
+
   const [popupActive, setPopupActive] = React.useState(false);
   const [colorSvg, setColorSvg] = React.useState("#2C2C2C");
   const listPopup = [
@@ -42,7 +48,7 @@ function Sort({ value, changeSort, changeOrder, order}) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupActive(!popupActive)}>{value.name}</span>
+        <span onClick={() => setPopupActive(!popupActive)}>{sort.name}</span>
       </div>
       {popupActive && (
         <div className="sort__popup">
@@ -51,7 +57,7 @@ function Sort({ value, changeSort, changeOrder, order}) {
               <li
                 key={index}
                 onClick={() => onClickListItems(popup)}
-                className={value.sort === popup.sort ? "active" : ""}
+                className={sort.sort === popup.sort ? "active" : ""}
               >
                 {popup.name}
               </li>
