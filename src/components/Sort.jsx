@@ -1,10 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setSort} from "../redux/slices/filterSlice";
+import { setCategoryId, setSort, setSortOrder} from "../redux/slices/filterSlice";
 
-function Sort({ value, changeSort, changeOrder, order }) {
+function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
+  const order = useSelector((state) => state.filter.sortOrder);
   console.log("sort state## ", sort);
 
   const [popupActive, setPopupActive] = React.useState(false);
@@ -17,7 +18,6 @@ function Sort({ value, changeSort, changeOrder, order }) {
 
   const onClickListItems = (obj) => {
     dispatch(setSort(obj))
-    changeSort(obj);
     setPopupActive(!popupActive);
   };
 
@@ -26,7 +26,7 @@ function Sort({ value, changeSort, changeOrder, order }) {
       order === "desc"
         ? (setColorSvg("#2C2C2C"), "asc")
         : (setColorSvg("#fe5f1e"), "desc");
-    changeOrder(item);
+    dispatch(setSortOrder(item));
   };
 
   return (
