@@ -12,7 +12,7 @@ function Home({ search }) {
   const dispatch = useDispatch();
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
-  const sortOrder = useSelector((state) => state.filter.sortOrder);
+  const order = useSelector((state) => state.filter.sortOrder);
 
 
   let [items, setItems] = React.useState([]);
@@ -28,9 +28,9 @@ function Home({ search }) {
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
     let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
 
-    url = url + `&sortBy=${sortType}&order=${sortOrder}`;
+    url = url + `&sortBy=${sortType}&order=${order}`;
     url = searchParam !== "" ? url + searchParam : url;
-
+    console.log('url>', url)
     fetch(
       `https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url
     )
@@ -42,7 +42,7 @@ function Home({ search }) {
         setLoad(true);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, sortOrder, search, currentPage]);
+  }, [categoryId, sortType, order, search, currentPage]);
 
   const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
 

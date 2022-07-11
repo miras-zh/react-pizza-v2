@@ -1,22 +1,23 @@
 import React from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setSort, setSortOrder} from "../redux/slices/filterSlice";
+import {  setSort, setSortOrder} from "../redux/slices/filterSlice";
 
 function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
   const order = useSelector((state) => state.filter.sortOrder);
-  console.log("sort state## ", sort);
 
   const [popupActive, setPopupActive] = React.useState(false);
   const [colorSvg, setColorSvg] = React.useState("#2C2C2C");
   const listPopup = [
-    { name: "популярности", sort: "raiting" },
-    { name: "цене", sort: "price" },
-    { name: "алфавиту", sort: "title" },
+    { name: "популярности", sortProperty: "raiting" },
+    { name: "цене", sortProperty: "price" },
+    { name: "алфавиту", sortProperty: "title" },
   ];
 
   const onClickListItems = (obj) => {
+    console.log('obj sort>', obj)
     dispatch(setSort(obj))
     setPopupActive(!popupActive);
   };
@@ -28,6 +29,8 @@ function Sort() {
         : (setColorSvg("#fe5f1e"), "desc");
     dispatch(setSortOrder(item));
   };
+
+  useEffect(()=>{console.log('order## ', order)},[order])
 
   return (
     <div className="sort">
@@ -56,7 +59,7 @@ function Sort() {
               <li
                 key={index}
                 onClick={() => onClickListItems(popup)}
-                className={sort.sort === popup.sort ? "active" : ""}
+                className={sort.sortProperty === popup.sortProperty ? "active" : ""}
               >
                 {popup.name}
               </li>
