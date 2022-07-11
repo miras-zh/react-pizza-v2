@@ -29,6 +29,7 @@ function Home({ search }) {
   const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
+    
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
     let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
 
