@@ -7,6 +7,7 @@ import CardPizza from "../components/CardPizza";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
+import axios from "axios";
 
 function Home({ search }) {
   const dispatch = useDispatch();
@@ -31,16 +32,22 @@ function Home({ search }) {
     url = url + `&sortBy=${sortType}&order=${order}`;
     url = searchParam !== "" ? url + searchParam : url;
     console.log('url>', url)
-    fetch(
-      `https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setItems(json);
-        setLoad(true);
-      });
+    // fetch(
+    //   `https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url
+    // )
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((json) => {
+    //     setItems(json);
+    //     setLoad(true);
+    //   });
+      axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
+            .then(response=>{
+              console.log('@ #$#response axios ##', response);
+              setItems(response.data);
+              setLoad(true);
+            })
     window.scrollTo(0, 0);
   }, [categoryId, sortType, order, search, currentPage]);
 
