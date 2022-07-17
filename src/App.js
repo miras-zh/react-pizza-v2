@@ -16,7 +16,6 @@ function App() {
   const [search, setSearch] = React.useState("");
   const dispatch = useDispatch();
 
-  console.log("search>", search);
   return (
     <div className="App">
       <div className="wrapper">

@@ -31,7 +31,7 @@ function Home({ search }) {
 
     url = url + `&sortBy=${sortType}&order=${order}`;
     url = searchParam !== "" ? url + searchParam : url;
-    console.log('url>', url)
+    // console.log('url>', url)
     // fetch(
     //   `https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url
     // )
@@ -44,7 +44,7 @@ function Home({ search }) {
     //   });
       axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
             .then(response=>{
-              console.log('@ #$#response axios ##', response);
+              // console.log('@ #$#response axios ##', response);
               setItems(response.data);
               setLoad(true);
             })

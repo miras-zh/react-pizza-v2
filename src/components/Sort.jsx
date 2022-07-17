@@ -30,7 +30,7 @@ function Sort() {
     dispatch(setSortOrder(item));
   };
 
-  useEffect(()=>{console.log('order## ', order)},[order])
+  useEffect(()=>{},[order])
 
   return (
     <div className="sort">

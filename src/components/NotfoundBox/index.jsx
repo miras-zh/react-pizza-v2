@@ -1,7 +1,6 @@
 import React from 'react';
 import style from './not-found-box.module.scss';
 
-console.log('style>', style)
 
 function NotFoundBox(){
     return(

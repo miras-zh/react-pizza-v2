@@ -1,28 +1,48 @@
 import React from "react";
 import style from "./search.module.scss";
 import { SearchContext } from "../../App";
+import debounce from "lodash.debounce";
+import { useEffect } from "react";
 
 function Search() {
-const {search, setSearch} = React.useContext(SearchContext);
-const inputRef = React.useRef();
+  const [valueInput, setValueInput] =React.useState();
+  const { search, setSearch } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
 
-const onClickFoucesClear = ()=>{
-  setSearch('');
-  inputRef.current.focus();
-}
+  const updateSearchValue = React.useCallback(
+    debounce((value) => {
+      setSearch(value);
+    }, 500),
+    []
+  );
+
+  // useEffect(()=>{
+  //   updateSearchValue(valueInput);
+  // },[valueInput])
+
+  const onClickFoucesClear = () => {
+    setValueInput("");
+    setSearch("");
+    inputRef.current.focus();
+  };
+
+  const onChangeInput = (event) => {
+    setValueInput(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={style.root}>
       <input
         ref={inputRef}
         type="text"
-        value={search}
-        onChange={(event) => setSearch(event.target.value)}
+        value={valueInput}
+        onChange={(event) => onChangeInput(event)}
         className={style.search}
         placeholder="Поиск пиццы"
       />
 
-      {search && (
+      {valueInput && (
         <svg
           className={style.clearIcon}
           onClick={onClickFoucesClear}
