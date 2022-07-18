@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
 import { useNavigate } from "react-router-dom";
 
 import Skeleton from "../components/CardPizza/Skeleton";
@@ -15,7 +15,7 @@ function Home({ search }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const categoryId = useSelector((state) => state.filter.categoryId);
-  const sortType = useSelector((state) => state.filter.sort.sortProperty);
+  const sortType = useSelector((state) => state.filter.sort.sortType);
   const order = useSelector((state) => state.filter.sortOrder);
   const currentPage = useSelector((state) => state.filter.currentPage);
 
@@ -28,6 +28,14 @@ function Home({ search }) {
   };
 
   // const [currentPage, setCurrentPage] = React.useState(1);
+
+  React.useEffect(()=>{
+    if(window.location.search){
+      const params = qs.parse(window.location.search.substring(1));
+      console.log('params>', params)
+    }
+    dispatch(setFilters(params))
+  },[])
 
   React.useEffect(() => {
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
@@ -61,7 +69,8 @@ function Home({ search }) {
       categoryId,
       currentPage
     })
-    console.log("queryString >", queryString)
+    console.log("queryString >", queryString);
+    navigate(`?${queryString}`)
   },[categoryId, sortType, order, search, currentPage])
 
   const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
