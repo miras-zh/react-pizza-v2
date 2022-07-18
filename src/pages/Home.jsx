@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import { useNavigate } from "react-router-dom";
 
 import Skeleton from "../components/CardPizza/Skeleton";
 import CardPizza from "../components/CardPizza";
@@ -8,12 +9,15 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Pagination from "../components/Pagination";
 import axios from "axios";
+import qs from "qs";
 
 function Home({ search }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const order = useSelector((state) => state.filter.sortOrder);
+  const currentPage = useSelector((state) => state.filter.currentPage);
 
 
   let [items, setItems] = React.useState([]);
@@ -23,7 +27,7 @@ function Home({ search }) {
     dispatch(setCategoryId(id));
   };
 
-  const [currentPage, setCurrentPage] = React.useState(1);
+  // const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
@@ -51,7 +55,21 @@ function Home({ search }) {
     window.scrollTo(0, 0);
   }, [categoryId, sortType, order, search, currentPage]);
 
+  React.useEffect(()=>{
+    const queryString = qs.stringify({
+      sortType: sortType,
+      categoryId,
+      currentPage
+    })
+    console.log("queryString >", queryString)
+  },[categoryId, sortType, order, search, currentPage])
+
   const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
+
+  const onChangePage = (page)=>{
+    // (page) => setCurrentPage(page);
+    dispatch(setCurrentPage(page))
+  }
 
   return (
     <>
@@ -66,7 +84,7 @@ function Home({ search }) {
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
             : pizzasList}
         </div>
-        <Pagination onPageChange={(page) => setCurrentPage(page)} />
+        <Pagination currentPage={currentPage} onPageChange={onChangePage} />
       </div>
     </>
   );

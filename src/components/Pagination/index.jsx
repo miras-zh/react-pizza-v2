@@ -2,10 +2,7 @@ import React from "react";
 import style from "./pagination.module.scss";
 import ReactPaginate from "react-paginate";
 
-function Pagination({ onPageChange }) {
-    const [currentItems, setCurrentItems] = React.useState(null);
-    const [pageCount, setPageCount] = React.useState(0);
-    const [itemOffset, setItemOffset] = React.useState(0);
+function Pagination({ onPageChange, currentPage }) {
 
     const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
@@ -15,9 +12,10 @@ function Pagination({ onPageChange }) {
         breakLabel="..."
         nextLabel=">"
         onPageChange={event=>onPageChange(event.selected + 1)}
-        pageRangeDisplayed={5}
-        pageCount={4}
+        pageRangeDisplayed={4}
+        pageCount={3}
         previousLabel="<"
+        forcePage={currentPage-1}
         renderOnZeroPageCount={null}
       />
     </div>
