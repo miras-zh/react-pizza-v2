@@ -1,7 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 function Categories({value, changeCategory}) {
-  const [activeCat, setActiveCat] = React.useState(0);
+  const activeCatergory = useSelector((state)=>state.filter.categoryId);
 
   const categories = [
     "Все",
@@ -12,7 +13,6 @@ function Categories({value, changeCategory}) {
     "Закрытые",
   ];
   const setActiveClass = (index) => {
-    setActiveCat(index);
     changeCategory(index)
   };
 
@@ -24,7 +24,7 @@ function Categories({value, changeCategory}) {
           <li
           key={index}
           onClick={() => setActiveClass(index)}
-          className={activeCat === index ? "active" : ""}>
+          className={activeCatergory === index ? "active" : ""}>
             {value}
           </li>)
         )}
