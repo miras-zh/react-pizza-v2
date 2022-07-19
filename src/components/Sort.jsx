@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {  setSort, setSortOrder} from "../redux/slices/filterSlice";
 
@@ -16,7 +15,7 @@ function Sort() {
 
   const [popupActive, setPopupActive] = React.useState(false);
   const [colorSvg, setColorSvg] = React.useState("#2C2C2C");
-
+  
   const onClickListItems = (obj) => {
     console.log('obj sort>', obj)
     dispatch(setSort(obj))
@@ -31,7 +30,6 @@ function Sort() {
     dispatch(setSortOrder(item));
   };
 
-  useEffect(()=>{},[order])
 
   return (
     <div className="sort">

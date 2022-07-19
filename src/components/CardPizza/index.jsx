@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 function CardPizza({ title, price, imageUrl, sizes, types }) {
-  let [piccaCount, setPiccaCount] = useState(0);
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
+  let [piccaCount, setPiccaCount] = useState(0);
 
   const typesList = ["тонкое", "традиционное"];
 

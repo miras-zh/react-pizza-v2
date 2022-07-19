@@ -20,36 +20,42 @@ function Home({ search }) {
   const sortType = useSelector((state) => state.filter.sort.sortType);
   const order = useSelector((state) => state.filter.sortOrder);
   const currentPage = useSelector((state) => state.filter.currentPage);
-  
+
   let [items, setItems] = React.useState([]);
   let [isLoad, setLoad] = React.useState(false);
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
+  const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
 
   React.useEffect(()=>{
     if(window.location.search){
       const params = qs.parse(window.location.search.substring(1));
       const sort = listPopup.find((popup)=>popup.sortType == params.sortType);
-      console.log('params>', params)
-      console.log('sort>', sort)
 
-      dispatch(setFilters({...params, sort}))
+      dispatch(setFilters({...params, sort}));
+      isSearch.current = true;
     }
-    
   },[])
 
   React.useEffect(() => {
-    
     window.scrollTo(0, 0);
+    if(!isSearch.current){
+      fetchDataRoute();
+    }
+    isSearch.current = false;
   }, [categoryId, sortType, order, search, currentPage]);
 
   React.useEffect(()=>{
+   if(isMounted.current){
     const queryString = qs.stringify({
       sortType: sortType,
       categoryId,
       currentPage
     })
-    console.log("queryString >", queryString);
     navigate(`?${queryString}`)
-  },[categoryId, sortType, order, search, currentPage])
+   }
+   isMounted.current = true;
+  },[categoryId, sortType, currentPage])
   
   const changeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -58,7 +64,6 @@ function Home({ search }) {
   const fetchDataRoute = ()=>{
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
     let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
-
     url = url + `&sortBy=${sortType}&order=${order}`;
     url = searchParam !== "" ? url + searchParam : url;
     axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
@@ -66,10 +71,8 @@ function Home({ search }) {
               // console.log('@ #$#response axios ##', response);
               setItems(response.data);
               setLoad(true);
-            })
-          }
-
-  const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
+    })
+  }
 
   const onChangePage = (page)=>{
     dispatch(setCurrentPage(page))

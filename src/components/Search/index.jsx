@@ -2,7 +2,6 @@ import React from "react";
 import style from "./search.module.scss";
 import { SearchContext } from "../../App";
 import debounce from "lodash.debounce";
-import { useEffect } from "react";
 
 function Search() {
   const [valueInput, setValueInput] =React.useState();
@@ -15,10 +14,6 @@ function Search() {
     }, 500),
     []
   );
-
-  // useEffect(()=>{
-  //   updateSearchValue(valueInput);
-  // },[valueInput])
 
   const onClickFoucesClear = () => {
     setValueInput("");
