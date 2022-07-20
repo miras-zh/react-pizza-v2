@@ -9,15 +9,28 @@ export const listPopup = [
 ];
 
 function Sort() {
+  const sortRef = React.useRef();
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
   const order = useSelector((state) => state.filter.sortOrder);
 
   const [popupActive, setPopupActive] = React.useState(false);
   const [colorSvg, setColorSvg] = React.useState("#2C2C2C");
+
+  React.useEffect(()=>{
+    const handleClickOutside = (event)=>{
+      if(!event.path.includes(sortRef.current)){
+        setPopupActive(false)
+      }
+    }
+    document.body.addEventListener('click', handleClickOutside);
+
+    return ()=>{
+      document.body.removeEventListener('click',handleClickOutside)
+    }
+  },[])
   
   const onClickListItems = (obj) => {
-    console.log('obj sort>', obj)
     dispatch(setSort(obj))
     setPopupActive(!popupActive);
   };
@@ -30,9 +43,10 @@ function Sort() {
     dispatch(setSortOrder(item));
   };
 
+  console.log('sortRef #>', sortRef)
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           className={order === "asc" ? "rotateArrow" : ""}
