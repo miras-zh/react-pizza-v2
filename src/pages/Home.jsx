@@ -25,7 +25,6 @@ function Home({ search }) {
   let [isLoad, setLoad] = React.useState(false);
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
-  const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
 
   React.useEffect(()=>{
     if(window.location.search){
@@ -77,6 +76,8 @@ function Home({ search }) {
   const onChangePage = (page)=>{
     dispatch(setCurrentPage(page))
   }
+
+  const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
 
   return (
     <>

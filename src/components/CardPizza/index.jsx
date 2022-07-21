@@ -1,11 +1,27 @@
 import React, { useState } from "react";
+import {useDispatch, useSelector} from "react-redux";
+import { addPizza} from "../../redux/slices/cartSlice";
 
-function CardPizza({ title, price, imageUrl, sizes, types }) {
+function CardPizza({id, title, price, imageUrl, sizes, types }) {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   let [piccaCount, setPiccaCount] = useState(0);
-
+  const dispatch = useDispatch();
+  const {items, totalPrice} = useSelector(state=> state.cart);
   const typesList = ["тонкое", "традиционное"];
+
+  const onClickAddPizza = () =>{
+    const item = {
+      id,
+      title,
+      imageUrl,
+      price,
+      type: typesList[activeType],
+      size:activeSize
+    }
+    console.log('piza add>>', item)
+    dispatch(addPizza(item));
+  }
 
   const onClickCount = () => {
     piccaCount++;
@@ -51,7 +67,7 @@ function CardPizza({ title, price, imageUrl, sizes, types }) {
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{price} KZT</div>
         <button
-          onClick={onClickCount}
+          onClick={onClickAddPizza}
           className="button button--outline button--add"
         >
           <svg
