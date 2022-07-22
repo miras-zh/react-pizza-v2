@@ -10,9 +10,18 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addPizza(state, action){
-        state.items.push(action.payload);
+        const findItem = state.items.find(obj => obj.id === action.payload.id)
+        if(findItem){
+            findItem.count++;
+        }else {
+            state.items.push({
+                ...action.payload,
+                count:1
+            });
+        }
         state.totalPrice = state.items.reduce((sum, obj)=>{
-            return obj.price + sum;
+            let countSum = obj.price * obj.count;
+            return  countSum + sum;
         },0)
     },
     removePizza(state, action){

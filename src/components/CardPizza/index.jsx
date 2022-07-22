@@ -4,10 +4,13 @@ import { addPizza} from "../../redux/slices/cartSlice";
 
 function CardPizza({id, title, price, imageUrl, sizes, types }) {
   const [activeType, setActiveType] = React.useState(0);
-  const [activeSize, setActiveSize] = React.useState(0);
-  let [piccaCount, setPiccaCount] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
   const dispatch = useDispatch();
-  const {items, totalPrice} = useSelector(state=> state.cart);
+  const cartItem = useSelector((state)=> {
+    return state.cart.items.find((obj) => obj.id === id);
+  });
+  const addedCount = cartItem ? cartItem.count : 0;
+
   const typesList = ["тонкое", "традиционное"];
 
   const onClickAddPizza = () =>{
@@ -23,10 +26,6 @@ function CardPizza({id, title, price, imageUrl, sizes, types }) {
     dispatch(addPizza(item));
   }
 
-  const onClickCount = () => {
-    piccaCount++;
-    setPiccaCount(piccaCount);
-  };
 
   const onClickSetActiveType = (index) => {
     setActiveType(index);
@@ -83,7 +82,7 @@ function CardPizza({id, title, price, imageUrl, sizes, types }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>{piccaCount}</i>
+          {addedCount > 0 && <i>{addedCount}</i>}
         </button>
       </div>
     </div>

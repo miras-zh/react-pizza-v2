@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 function Cart() {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state)=> {
+    return state.cart.items.find((obj) => obj.id === id);
+  });
+
+  const addedCount = cartItem ? cartItem.count : 0;
   return (
     <div className="container container--cart">
       <div className="cart">
