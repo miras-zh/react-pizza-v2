@@ -78,7 +78,7 @@ function Home({ search }) {
   }
 
   const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
-
+  console.log('list >', pizzasList)
   return (
     <>
       <div className="container">

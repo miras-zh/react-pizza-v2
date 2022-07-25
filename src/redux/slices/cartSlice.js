@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  totalPrice:0, 
+  totalPrice:0,
+  totalCount:0,
   items:[]
 };
 
@@ -22,16 +23,44 @@ const cartSlice = createSlice({
         state.totalPrice = state.items.reduce((sum, obj)=>{
             let countSum = obj.price * obj.count;
             return  countSum + sum;
-        },0)
+        },0);
+        state.totalCount = state.items.reduce((sc,obj)=>{
+            return obj.count + sc;
+        },0);
     },
     removePizza(state, action){
-      state.items = state.items.filter((item)=>item.id !== action.payload);
+        const item = state.items.find((item)=>item.id === action.payload.id);
+        if (item.count > 1){
+            item.count--;
+        }else{
+            state.items = state.items.filter((item)=>item.id !== action.payload.id);
+        }
+
+        state.totalPrice = state.items.reduce((sum, obj)=>{
+            let countSum = obj.price * obj.count;
+            return  countSum + sum;
+            },0);
+        state.totalCount = state.items.reduce((sc,obj)=>{
+            return obj.count + sc;
+        },0);
+    },
+    clearPizzaPosition(state, action){
+        state.items = state.items.filter((item)=>item.id !== action.payload.id);
+        state.totalPrice = state.items.reduce((sum, obj)=>{
+            let countSum = obj.price * obj.count;
+            return  countSum + sum;
+        },0);
+        state.totalCount = state.items.reduce((sc,obj)=>{
+            return obj.count + sc;
+        },0);
     },
     clearPizzas(state,action){
       state.items = [];
+      state.totalPrice = 0;
+      state.totalCount = 0;
     }
   },
 });
 
-export const { addPizza, removePizza, clearPizzas } = cartSlice.actions;
+export const { addPizza, removePizza, clearPizzas, clearPizzaPosition } = cartSlice.actions;
 export default cartSlice.reducer;
