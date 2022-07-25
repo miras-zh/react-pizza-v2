@@ -20,7 +20,7 @@ function CardPizza({id, title, price, imageUrl, sizes, types }) {
       imageUrl,
       price,
       type: typesList[activeType],
-      size:activeSize
+      size:sizes[activeSize]
     }
     console.log('piza add>>', item)
     dispatch(addPizza(item));

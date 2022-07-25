@@ -60,17 +60,14 @@ function Home({ search }) {
     dispatch(setCategoryId(id));
   };
 
-  const fetchDataRoute = ()=>{
+  const fetchDataRoute = async ()=>{
     let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
     let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
     url = url + `&sortBy=${sortType}&order=${order}`;
     url = searchParam !== "" ? url + searchParam : url;
-    axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
-    .then(response=>{
-              // console.log('@ #$#response axios ##', response);
-              setItems(response.data);
-              setLoad(true);
-    })
+    const res = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
+    setItems(res.data);
+    setLoad(true);
   }
 
   const onChangePage = (page)=>{
