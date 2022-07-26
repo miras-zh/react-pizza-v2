@@ -11,6 +11,7 @@ import { listPopup} from '../components/Sort';
 import Pagination from "../components/Pagination";
 import axios from "axios";
 import qs from "qs";
+import {setItemsState} from "../redux/slices/pizzaSlice";
 
 function Home({ search }) {
   const navigate = useNavigate();
@@ -20,8 +21,9 @@ function Home({ search }) {
   const sortType = useSelector((state) => state.filter.sort.sortType);
   const order = useSelector((state) => state.filter.sortOrder);
   const currentPage = useSelector((state) => state.filter.currentPage);
+  const items = useSelector((state)=>state.pizza.items)
 
-  let [items, setItems] = React.useState([]);
+  // let [items, setItems] = React.useState([]);
   let [isLoad, setLoad] = React.useState(false);
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
@@ -61,13 +63,14 @@ function Home({ search }) {
   };
 
   const fetchDataRoute = async ()=>{
+    let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
+    let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
+    url = url + `&sortBy=${sortType}&order=${order}`;
+    url = searchParam !== "" ? url + searchParam : url;
     try {
-      let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
-      let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
-      url = url + `&sortBy=${sortType}&order=${order}`;
-      url = searchParam !== "" ? url + searchParam : url;
-      const res = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
-      setItems(res.data);
+      const {data} = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
+      dispatch(setItemsState(data))
+      // setItems(data);
       setLoad(true);
     }catch (e) {
       alert('Пиццы не получены! Ошибка загрузки списка!')
