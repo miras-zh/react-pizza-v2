@@ -61,13 +61,20 @@ function Home({ search }) {
   };
 
   const fetchDataRoute = async ()=>{
-    let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
-    let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
-    url = url + `&sortBy=${sortType}&order=${order}`;
-    url = searchParam !== "" ? url + searchParam : url;
-    const res = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
-    setItems(res.data);
-    setLoad(true);
+    try {
+      let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
+      let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
+      url = url + `&sortBy=${sortType}&order=${order}`;
+      url = searchParam !== "" ? url + searchParam : url;
+      const res = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
+      setItems(res.data);
+      setLoad(true);
+    }catch (e) {
+      alert('Пиццы не получены! Ошибка загрузки списка!')
+      console.log('error catch >',e)
+    } finally {
+
+    }
   }
 
   const onChangePage = (page)=>{
@@ -75,7 +82,6 @@ function Home({ search }) {
   }
 
   const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
-  console.log('list >', pizzasList)
   return (
     <>
       <div className="container">

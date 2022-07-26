@@ -43,7 +43,6 @@ function Sort() {
     dispatch(setSortOrder(item));
   };
 
-  console.log('sortRef #>', sortRef)
 
   return (
     <div ref={sortRef} className="sort">
