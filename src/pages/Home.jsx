@@ -11,7 +11,7 @@ import { listPopup} from '../components/Sort';
 import Pagination from "../components/Pagination";
 import axios from "axios";
 import qs from "qs";
-import {setItemsState} from "../redux/slices/pizzaSlice";
+import { getAllPizzas } from "../redux/slices/pizzaSlice";
 
 function Home({ search }) {
   const navigate = useNavigate();
@@ -63,13 +63,8 @@ function Home({ search }) {
   };
 
   const fetchDataRoute = async ()=>{
-    let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
-    let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
-    url = url + `&sortBy=${sortType}&order=${order}`;
-    url = searchParam !== "" ? url + searchParam : url;
     try {
-      const {data} = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
-      dispatch(setItemsState(data))
+      dispatch(getAllPizzas({categoryId, search,sortType,order, currentPage }))
       // setItems(data);
       setLoad(true);
     }catch (e) {
