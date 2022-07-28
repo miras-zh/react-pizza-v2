@@ -10,11 +10,12 @@ export const getAllPizzas = createAsyncThunk(
         url = url + `&sortBy=${sortType}&order=${order}`;
         url = searchParam !== "" ? url + searchParam : url;
         const {data} = await axios.get(`https://62b0a7a6e460b79df04ab646.mockapi.io/items?limit=4&page=${currentPage}&` +url)
-        state
+        return data;
     }
 )
 const initialState = {
-    items:[]
+    items:[],
+    isStatus: 'loading', //success, loading , error
 };
 
 const pizzaSlice = createSlice({
@@ -26,8 +27,17 @@ const pizzaSlice = createSlice({
         }
     },
     extraReducers: {
+        [getAllPizzas.pending]:(state)=>{
+            state.isStatus = 'loading';
+            state.items = [];
+        },
         [getAllPizzas.fulfilled]:(state, action)=>{
-
+            state.items = action.payload;
+            state.isStatus = 'success';
+        },
+        [getAllPizzas.rejected]:(state, action)=>{
+            state.items = [];
+            state.isStatus = 'error'
         }
     }
 })

@@ -21,7 +21,7 @@ function Home({ search }) {
   const sortType = useSelector((state) => state.filter.sort.sortType);
   const order = useSelector((state) => state.filter.sortOrder);
   const currentPage = useSelector((state) => state.filter.currentPage);
-  const items = useSelector((state)=>state.pizza.items)
+  const {items, isStatus} = useSelector((state)=>state.pizza)
 
   // let [items, setItems] = React.useState([]);
   let [isLoad, setLoad] = React.useState(false);
@@ -35,6 +35,7 @@ function Home({ search }) {
 
       dispatch(setFilters({...params, sort}));
       isSearch.current = true;
+      fetchDataRoute();
     }
   },[])
 
@@ -62,17 +63,8 @@ function Home({ search }) {
     dispatch(setCategoryId(id));
   };
 
-  const fetchDataRoute = async ()=>{
-    try {
-      dispatch(getAllPizzas({categoryId, search,sortType,order, currentPage }))
-      // setItems(data);
-      setLoad(true);
-    }catch (e) {
-      alert('Пиццы не получены! Ошибка загрузки списка!')
-      console.log('error catch >',e)
-    } finally {
-
-    }
+  const fetchDataRoute = ()=>{
+    dispatch(getAllPizzas({categoryId, search,sortType,order,currentPage}));
   }
 
   const onChangePage = (page)=>{
@@ -80,6 +72,8 @@ function Home({ search }) {
   }
 
   const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
+  const skeletonList = [...new Array(6)].map((_, index) => (<Skeleton key={index} />));
+
   return (
     <>
       <div className="container">
@@ -88,11 +82,19 @@ function Home({ search }) {
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">
-          {!isLoad
-            ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : pizzasList}
-        </div>
+        { isStatus === 'error' ? (
+          <div className="content__error">
+              <h2>Нет товаров на витрине</h2>
+              <p>Сбой загрузки товаров ...</p>
+          </div>
+        ):(
+            <div className="content__items">
+              {isStatus === 'loading'
+                  ? skeletonList
+                  : pizzasList}
+            </div>
+        )
+        }
         <Pagination currentPage={currentPage} onPageChange={onChangePage} />
       </div>
     </>

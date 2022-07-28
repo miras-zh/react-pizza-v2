@@ -18,6 +18,10 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error {
+    margin: 20px 20px 80px;
+  }
+
   &__title {
     margin: 35px 0;
   }
