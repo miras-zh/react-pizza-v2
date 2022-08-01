@@ -16,7 +16,7 @@ import { getAllPizzas } from "../redux/slices/pizzaSlice";
 function Home({ search }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const searchValue = useSelector((state)=>state.filter.searchValue);
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortType);
   const order = useSelector((state) => state.filter.sortOrder);

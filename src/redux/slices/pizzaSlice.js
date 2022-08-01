@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getAllPizzas = createAsyncThunk(
     'pizza/getAllPizzas',
-    async (param)=>{
+    async (param,thunkAPI)=>{
         const {categoryId, search,sortType,order,currentPage} = param;
         let url = `${categoryId > 0 ? "category=" + categoryId : ""}`;
         let searchParam = `${search.length !== 0 ? "&search=" + search : ""}`;
