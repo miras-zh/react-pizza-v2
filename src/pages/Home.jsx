@@ -23,7 +23,6 @@ function Home({ search }) {
   const currentPage = useSelector((state) => state.filter.currentPage);
   const {items, isStatus} = useSelector((state)=>state.pizza)
 
-  // let [items, setItems] = React.useState([]);
   let [isLoad, setLoad] = React.useState(false);
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
