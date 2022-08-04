@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {useSelector} from "react-redux";
 import logo from "../assets/img/pizza-logo.svg";
 import Search from "./Search";
 
 function Header() {
   const {items, totalPrice, totalCount} = useSelector(state=> state.cart);
+  const location = useLocation();
+  console.log('location?>', location)
 
   return (
     <div className="header">
