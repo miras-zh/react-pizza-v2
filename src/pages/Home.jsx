@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategoryId, setCurrentPage, setFilters, setSearchValue } from "../redux/slices/filterSlice";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 import Skeleton from "../components/CardPizza/Skeleton";
 import CardPizza from "../components/CardPizza";
@@ -30,7 +30,7 @@ function Home() {
   React.useEffect(()=>{
     if(window.location.search){
       const params = qs.parse(window.location.search.substring(1));
-      const sort = listPopup.find((popup)=>popup.sortType == params.sortType);
+      const sort = listPopup.find((popup)=>popup.sortType === params.sortType);
 
       dispatch(setFilters({...params, sort}));
       isSearch.current = true;
@@ -70,7 +70,7 @@ function Home() {
     dispatch(setCurrentPage(page))
   }
 
-  const pizzasList = items.map((obj) => <CardPizza key={obj.id} {...obj} />);
+  const pizzasList = items.map((obj) => <Link to={`/pizza/${obj.id}`} key={obj.id}><CardPizza {...obj} /></Link>);
   const skeletonList = [...new Array(6)].map((_, index) => (<Skeleton key={index} />));
 
   return (
