@@ -2,7 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {  setSort, setSortOrder} from "../redux/slices/filterSlice";
 
-export const listPopup = [
+type PopupType = {
+  name: string;
+  sortType: string;
+}
+
+export const listPopup:PopupType[] = [
   { name: "популярности", sortType: "raiting" },
   { name: "цене", sortType: "price" },
   { name: "алфавиту", sortType: "title" },
@@ -30,7 +35,7 @@ function Sort() {
     }
   },[])
   
-  const onClickListItems = (obj) => {
+  const onClickListItems = (obj:PopupType) => {
     dispatch(setSort(obj))
     setPopupActive(!popupActive);
   };

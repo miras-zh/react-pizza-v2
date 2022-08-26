@@ -2,10 +2,10 @@ import React from 'react';
 import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 
-const PizzaPage = ()=>{
+const PizzaPage: React.FC = ()=>{
     const {id} = useParams();
     const navigate = useNavigate();
-    const [dataPizza, setDataPizza] = React.useState();
+    const [dataPizza, setDataPizza] = React.useState<{ imageUrl:string; title:string; price:number; description:string;}>();
 
     React.useEffect(() => {
             async function fetchDataPizza() {
@@ -14,7 +14,7 @@ const PizzaPage = ()=>{
                     setDataPizza(data)
                 } catch (e) {
                     console.log('error card item page ?>', e);
-                    navigate('/')
+                    navigate('/');
                 }
             }
             fetchDataPizza().then(r => r);
@@ -22,7 +22,7 @@ const PizzaPage = ()=>{
         [])
 
     if(!dataPizza){
-        return 'Loading';
+        return <>'Loading'</>;
     }
 
     return (
