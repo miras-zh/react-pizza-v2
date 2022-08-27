@@ -14,16 +14,16 @@ export const listPopup:PopupType[] = [
 ];
 
 function Sort() {
-  const sortRef = React.useRef();
+  const sortRef = React.useRef(null);
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
-  const order = useSelector((state) => state.filter.sortOrder);
+  const sort = useSelector((state: any) => state.filter.sort);
+  const order = useSelector((state: any) => state.filter.sortOrder);
 
   const [popupActive, setPopupActive] = React.useState(false);
-  const [colorSvg, setColorSvg] = React.useState("#2C2C2C");
+  const [colorSvg, setColorSvg] = React.useState<string>("#2C2C2C");
 
   React.useEffect(()=>{
-    const handleClickOutside = (event)=>{
+    const handleClickOutside = (event: any)=>{
       if(!event.path.includes(sortRef.current)){
         setPopupActive(false)
       }

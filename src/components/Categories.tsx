@@ -1,8 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-function Categories({value, changeCategory}) {
-  const activeCatergory = useSelector((state)=>state.filter.categoryId);
+type TCategoriesProps = {
+  value: any;
+  changeCategory: any;
+}
+
+const Categories: React.FC<TCategoriesProps> = ({value, changeCategory})=> {
+  const activeCatergory = useSelector((state: any)=>state.filter.categoryId);
 
   const categories = [
     "Все",
@@ -12,7 +17,7 @@ function Categories({value, changeCategory}) {
     "Острые",
     "Закрытые",
   ];
-  const setActiveClass = (index) => {
+  const setActiveClass = (index: number) => {
     changeCategory(index)
   };
 
